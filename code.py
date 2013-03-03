@@ -1,3 +1,4 @@
+#!/usr/bin/python2.6
 import time
 import hmac
 import hashlib
@@ -7,8 +8,8 @@ import web
 from web import form
 
 urls = (
-  '/', 'login',
-  '/logout', 'logout',
+  '/auth/', 'login',
+  '/auth/logout', 'logout',
 )
 
 render = web.template.render('templates/')
@@ -34,12 +35,12 @@ def GenerateCookieSig(*parts):
 
 def SetSecureCookie(name, value, expires, **kwargs):
   timestamp = str(int(time.time()))
-  
+
   value = base64.b64encode(value)
   sig = GenerateCookieSig(name, value, timestamp, expires)
   value = '|'.join((name, value, timestamp, str(expires), sig))
   web.setcookie(name, value, expires=expires, **kwargs)
-  
+
 def GetSecureCookie(name):
   data = web.cookies().get(name)
   if data is None:
@@ -53,8 +54,8 @@ def GetSecureCookie(name):
   if int(timestamp) + int(expires) < time.time():
     return False, 'cookie expired'
   return True, base64.b64decode(value)
-  
-  
+
+
 class login:
   def GET(self):
     if LoggedIn():
@@ -63,17 +64,17 @@ class login:
     else:
       f = login_box()
       return render.login(f)
-   
-  def POST(self): 
+
+  def POST(self):
     f = login_box()
-    if not f.validates(): 
+    if not f.validates():
       return render.login(form)
     # write cookie
     # write to db
 
     username = f['username'].value
     SetSecureCookie('LoggedIn', username, 60 * 60)
-     
+
     return render.logged_in(username)
 
 class logout:
@@ -81,6 +82,7 @@ class logout:
     web.setcookie('LoggedIn', '', -1)
     return render.logout()
 
-if __name__ == "__main__": 
-    app = web.application(urls, globals())
-    app.run()    
+app = web.application(urls, globals())
+web.wsgi.runwsgi = lambda func, addr=None: web.wsgi.runfcgi(func, addr)
+if __name__ == "__main__":
+    app.run()
