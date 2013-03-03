@@ -62,7 +62,8 @@ class login:
       _, username = GetSecureCookie('LoggedIn')
       return render.logged_in(username)
     else:
-      ip = web.ctx.env.get('ip', '0')
+      ip = web.ctx.ip
+
       timestamp = str(int(time.time())) 
       sig = GenerateCookieSig(ip, timestamp)
       value = '|'.join((ip, timestamp, sig))
