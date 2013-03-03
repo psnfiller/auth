@@ -17,6 +17,7 @@ render = web.template.render('templates/')
 login_box = form.Form(
     form.Textbox('username'),
     form.Password('password'),
+    form.Hidden('token'),
 )
 
 
