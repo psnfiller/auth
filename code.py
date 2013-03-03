@@ -62,8 +62,11 @@ class login:
       _, username = GetSecureCookie('LoggedIn')
       return render.logged_in(username)
     else:
-      f = login_box()
-      return render.login(f)
+      ip = web.ctx[ip]	
+      timestamp = str(int(time.time())) 
+      sig = GenerateCookieSig(ip, timestamp)
+      value = '|'.join((ip, timestamp, sig))
+      return render.login(True, value )
 
   def POST(self):
     f = login_box()

@@ -1,7 +1,9 @@
-$def with (form)
+$def with (valid, token)
 
 <form name="main" method="post"> 
-$if not form.valid: <p class="error">Try again, AmeriCAN:</p>
-$:form.render()
+$if not valid: <p class="error">Try again, AmeriCAN:</p>
+name: <input type="text" name="username">
+Password: <input type="password" name="password">
+<input type="hidden" name="token" value="$token" />
 <input type="submit" />    </form>
 
