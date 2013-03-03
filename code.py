@@ -22,6 +22,7 @@ login_box = form.Form(
 
 logout_box = form.Form(
     form.Hidden('token'),
+    form.Button('button'),
 )
 
 
