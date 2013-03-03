@@ -85,7 +85,7 @@ class login:
     ip, timestamp, sig = value
     if ip != web.ctx.ip:
       return render.login(form)
-    timestamp = time.gmtime(float(timestamp))
+    timestamp = int(timestamp)
     if timestamp + 2 * 60 < time.time():
       return render.login(form)
     if sig != GenerateCookieSig(ip, timestamp):
