@@ -61,43 +61,43 @@ def GetSecureCookie(name):
   return True, base64.b64decode(value)
 
 
+def GetLoginToken():
+  ip = web.ctx.ip
+  timestamp = str(int(time.time())) 
+  sig = GenerateCookieSig(ip, timestamp)
+  value = '|'.join((ip, timestamp, sig))
+  return value
+
 class login:
   
-  def GetLoginToken(self):
-    ip = web.ctx.ip
-    timestamp = str(int(time.time())) 
-    sig = GenerateCookieSig(ip, timestamp)
-    value = '|'.join((ip, timestamp, sig))
-    return value
-
   def GET(self):
     if LoggedIn():
       _, username = GetSecureCookie('LoggedIn')
       return render.logged_in(username)
     else:
 
-      return render.login(True, self.GetLoginToken())
+      return render.login(True, GetLoginToken())
 
   def POST(self):
     f = login_box()
     if not f.validates():
-      return render.login(form, self.GetLoginToken())
+      return render.login(form, GetLoginToken())
 
     value = f['token'].value
     username = f['username'].value
     if username == None or value == None:
-      return render.login(form, self.GetLoginToken())
+      return render.login(form, GetLoginToken())
     value = value.split('|')
     if len(value) != 3:
-      return render.login(form, self.GetLoginToken())
+      return render.login(form, GetLoginToken())
     ip, timestamp, sig = value
     if ip != web.ctx.ip:
-      return render.login(form, self.GetLoginToken())
+      return render.login(form, GetLoginToken())
     timestamp = int(timestamp)
     if timestamp + 2 * 60 < time.time():
-      return render.login(form, self.GetLoginToken())
+      return render.login(form, GetLoginToken())
     if sig != GenerateCookieSig(ip, timestamp):
-      return render.login(form, self.GetLoginToken())
+      return render.login(form, GetLoginToken())
     
     SetSecureCookie('LoggedIn', username, 60 * 60)
 
@@ -106,6 +106,7 @@ class login:
 class logout:
   def GET(self):
     f = logout_box()
+    f['token'].value = GetLoginToken()
     return render.logout_page(f)
   
   def POST(self):
