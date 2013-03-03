@@ -20,6 +20,10 @@ login_box = form.Form(
     form.Hidden('token'),
 )
 
+logout_box = form.Form(
+    form.Hidden('token'),
+)
+
 
 KEY='65656565fgfdhghg65'
 def LoggedIn():
@@ -101,7 +105,8 @@ class login:
 
 class logout:
   def GET(self):
-    return render.logout_page()
+    f = logout_form()
+    return render.logout_page(f)
   
   def POST(self):
     web.setcookie('LoggedIn', '', -1)
