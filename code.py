@@ -105,7 +105,7 @@ class login:
 
 class logout:
   def GET(self):
-    f = logout_form()
+    f = logout_box()
     return render.logout_page(f)
   
   def POST(self):
