@@ -79,10 +79,9 @@ class login:
     if not f.validates():
       return render.login(form, self.GetLoginToken())
 
-    try:
-      value = f['token'].value
-      username = f['username'].value
-    except:
+    value = f['token'].value
+    username = f['username'].value
+    if username == None or value == None:
       return render.login(form, self.GetLoginToken())
     value = value.split('|')
     if len(value) != 3:
