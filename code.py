@@ -101,6 +101,9 @@ class login:
 
 class logout:
   def GET(self):
+    return render.logout_page()
+  
+  def POST(self):
     web.setcookie('LoggedIn', '', -1)
     return render.logout()
 
