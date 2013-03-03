@@ -77,6 +77,18 @@ class login:
     # write to db
 
     username = f['username'].value
+    value = f['token'].value
+    value = value.split('|')
+    if len(value) != 3:
+      return render.login(form)
+    ip, timestamp, sig = value
+    if ip != web.ctx.ip:
+      return render.login(form)
+    if time.time(timestamp) + 2 * 60 < time.time():
+      return render.login(form)
+    if sig != GenerateCookieSig(ip, timestamp):
+      return render.login
+    
     SetSecureCookie('LoggedIn', username, 60 * 60)
 
     return render.logged_in(username)
