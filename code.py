@@ -80,6 +80,8 @@ class login:
       return render.login(form, self.GetLoginToken())
 
     username = f['username'].value
+    if not f.has_key('token'):
+      return render.login(form, self.GetLoginToken())
     value = f['token'].value
     value = value.split('|')
     if len(value) != 3:
