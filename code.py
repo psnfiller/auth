@@ -91,7 +91,7 @@ class login:
     if timestamp + 2 * 60 < time.time():
       return render.login(form, self.GetLoginToken())
     if sig != GenerateCookieSig(ip, timestamp):
-      return render.login
+      return render.login(form, self.GetLoginToken())
     
     SetSecureCookie('LoggedIn', username, 60 * 60)
 
