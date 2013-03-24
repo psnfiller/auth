@@ -24,14 +24,10 @@ login_box = form.Form(
     form.Password('password'),
 )
 
-logout_box = form.Form(
-    form.Button('button'),
-)
-
 
 KEY='45454543djfdjfsdkjfsdjkfsd'
 def LoggedIn():
-  state, data = GetSecureCookie('LoggedIn')
+  state, data = GetSecureCookie('InsecureLoggedIn')
   return  state
 
 def GenerateCookieSig(*parts):
@@ -68,7 +64,7 @@ class login:
   
   def GET(self):
     if LoggedIn():
-      _, username = GetSecureCookie('LoggedIn')
+      _, username = GetSecureCookie('InsecureLoggedIn')
       return render.logged_in(username)
     else:
 
@@ -82,18 +78,14 @@ class login:
     username = f['username'].value
     if username == None: 
       return render.login(form)
-    SetSecureCookie('LoggedIn', username, 60 * 60)
+    SetSecureCookie('InsecureLoggedIn', username, 60 * 60)
     return render.logged_in(username)
 
 class logout:
   def GET(self):
-    f = logout_box()
-    return render.logout_page(f)
-  
-  def POST(self):
-    web.setcookie('LoggedIn', '', -1)
+    web.setcookie('InsecureLoggedIn', '', -1)
     return render.logout()
-
+  
 class go:
   def GET(self):
     return render.redirect()
