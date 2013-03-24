@@ -1,0 +1,16 @@
+$def with (message="")
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title>redirecty</title>
+$if message == "":
+  <meta http-equiv="REFRESH" content="0;url=/reader/"></HEAD>
+$else: 
+  <meta http-equiv="REFRESH" content="0;url=/reader/?message=$message"></HEAD>
+<BODY>
+redrecting
+</BODY>
+</HTML>
+
+
+

@@ -2,6 +2,7 @@
 #
 # This code as a few crsf holes.
 
+import os
 import time
 import hmac
 import hashlib
@@ -11,6 +12,7 @@ import web
 from web import form
 
 urls = (
+  '/', 'go',
   '/auth/', 'login',
   '/auth/logout', 'logout',
 )
@@ -94,7 +96,12 @@ class logout:
     web.setcookie('LoggedIn', '', -1)
     return render.logout()
 
+class go:
+  def GET(self):
+    return render.redirect()
+
 app = web.application(urls, globals())
-web.wsgi.runwsgi = lambda func, addr=None: web.wsgi.runfcgi(func, addr)
 if __name__ == "__main__":
-    app.run()
+  if not os.environ.get('test'):
+    web.wsgi.runwsgi = lambda func, addr=None: web.wsgi.runfcgi(func, addr)
+  app.run()
