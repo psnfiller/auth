@@ -13,5 +13,10 @@ To run as a standalone webserver:
 
 This is useful for developing. 
 
+Layout
+======
+
+code.py: the secure code
+
 
 
