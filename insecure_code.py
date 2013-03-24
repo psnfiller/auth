@@ -48,7 +48,7 @@ def SetSecureCookie(name, value, expires, **kwargs):
   value = base64.b64encode(value)
   sig = GenerateCookieSig(name, value, timestamp, expires)
   value = '|'.join((name, value, timestamp, str(expires), sig))
-  web.setcookie(name, value, expires=expires, **kwargs)
+  web.setcookie(name, value, expires=expires, secure=True, httponly=True, **kwargs)
 
 def GetSecureCookie(name):
   data = web.cookies().get(name)
