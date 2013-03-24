@@ -1,0 +1,3 @@
+set -eu
+
+spawn-fcgi -d /home/psn/sites/auth/ -f /home/psn/sites/auth/insecure_code.py -s /var/run/fcgiwrap-sockets/insecure_auth.socket  -M 0757
