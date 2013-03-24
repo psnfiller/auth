@@ -13,8 +13,8 @@ from web import form
 
 urls = (
   '/', 'go',
-  '/auth/', 'login',
-  '/auth/logout', 'logout',
+  '/insecure_auth/', 'login',
+  '/insecure_auth/logout', 'logout',
 )
 
 render = web.template.render('templates/insecure/')
@@ -78,8 +78,7 @@ class login:
     f = login_box()
     if not f.validates():
       return render.login(form)
-
-    value = f['token'].value
+    
     username = f['username'].value
     if username == None: 
       return render.login(form)
@@ -89,7 +88,6 @@ class login:
 class logout:
   def GET(self):
     f = logout_box()
-    f['token'].value = GetLoginToken()
     return render.logout_page(f)
   
   def POST(self):

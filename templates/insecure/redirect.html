@@ -4,9 +4,9 @@ $def with (message="")
 <head>
 <title>redirecty</title>
 $if message == "":
-  <meta http-equiv="REFRESH" content="0;url=/reader/"></HEAD>
+  <meta http-equiv="REFRESH" content="0;url=/insecure_auth/"></HEAD>
 $else: 
-  <meta http-equiv="REFRESH" content="0;url=/reader/?message=$message"></HEAD>
+  <meta http-equiv="REFRESH" content="0;url=/insecure_auth/?message=$message"></HEAD>
 <BODY>
 redrecting
 </BODY>

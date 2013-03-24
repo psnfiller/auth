@@ -1,9 +1,8 @@
-$def with (valid, token)
+$def with (valid)
 
 <form name="main" method="post"> 
 $if not valid: <p class="error">Try again, AmeriCAN:</p>
 name: <input type="text" name="username">
 Password: <input type="password" name="password">
-<input type="hidden" name="token" value="$token" />
 <input type="submit" />    </form>
 
